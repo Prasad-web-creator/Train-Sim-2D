@@ -34,37 +34,46 @@
 
 @media (max-width: 1200px) {
   :root {
-    --dashboardHeight: clamp(185px, 33vh, 245px);
-    --controlScale: 0.92;
-    --gaugeScale: 0.92;
-    --hudPadding: clamp(8px, 1.5vw, 14px);
+    --dashboardHeight: clamp(180px, 32vh, 235px);
+    --controlScale: 0.90;
+    --gaugeScale: 0.88;
+    --hudPadding: clamp(8px, 1.4vw, 14px);
   }
 }
 
 @media (max-width: 860px) {
   :root {
-    --dashboardHeight: clamp(175px, 33vh, 230px);
-    --controlScale: 0.85;
-    --gaugeScale: 0.80;
-    --hudPadding: clamp(6px, 1.2vw, 10px);
+    --dashboardHeight: clamp(160px, 34vh, 205px);
+    --controlScale: 0.80;
+    --gaugeScale: 0.74;
+    --hudPadding: clamp(4px, 1.0vw, 8px);
   }
 }
 
-@media (max-height: 500px) and (orientation: landscape) {
+@media (max-height: 520px) and (orientation: landscape) {
   :root {
-    --dashboardHeight: clamp(155px, 36vh, 185px);
-    --controlScale: 0.80;
-    --gaugeScale: 0.72;
+    --dashboardHeight: clamp(140px, 38vh, 175px);
+    --controlScale: 0.78;
+    --gaugeScale: 0.70;
     --hudPadding: 6px;
+  }
+}
+
+@media (max-width: 720px) and (orientation: landscape) {
+  :root {
+    --dashboardHeight: clamp(130px, 39vh, 160px);
+    --controlScale: 0.70;
+    --gaugeScale: 0.62;
+    --hudPadding: 4px;
   }
 }
 
 @media (orientation: portrait) {
   :root {
-    --dashboardHeight: clamp(280px, 50dvh, 480px);
-    --controlScale: 0.88;
-    --gaugeScale: 0.75;
-    --hudPadding: clamp(6px, 2vw, 12px);
+    --dashboardHeight: clamp(260px, 48dvh, 440px);
+    --controlScale: 0.85;
+    --gaugeScale: 0.72;
+    --hudPadding: clamp(6px, 1.8vw, 12px);
   }
 }
 
@@ -265,6 +274,45 @@
   flex: 1;
 }
 
+/* Micro Telemetry Bar Above Gauges (Digital Res, Temp, Fuel Readouts) */
+.train-dashboard__telemetry-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(6px, 1.4vw, 14px);
+  width: 100%;
+  padding: 1px 4px 2px;
+  flex-shrink: 0;
+}
+
+.train-dashboard__telemetry-chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(10, 16, 28, 0.75);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  border-radius: 4px;
+  padding: 1.5px 6px;
+  font-family: var(--font-display);
+  font-size: clamp(0.50rem, calc(0.56rem * var(--controlScale)), 0.62rem);
+  line-height: 1;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+  user-select: none;
+}
+
+.train-dashboard__telemetry-chip-lbl {
+  color: #94a3b8;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.train-dashboard__telemetry-chip-val {
+  color: #38bdf8;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
 /* Center Cluster Content: Left Brake Switchbank + Center Gauges Row + Right Aux Switchbank */
 .train-dashboard__cluster-content {
   display: flex;
@@ -274,9 +322,9 @@
   width: 100%;
   flex: 1;
   min-height: 0;
-  gap: clamp(14px, 2.0vw, 28px);
-  padding: 0 8px;
-  overflow: visible;
+  gap: clamp(6px, 1.4vw, 20px);
+  padding: 0 clamp(4px, 1vw, 8px);
+  overflow: hidden;
 }
 
 /* Switchbank Pods (Left & Right) */
@@ -284,25 +332,21 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 5px;
-  width: 114px;
-  min-width: 114px;
-  max-width: 114px;
-  flex: 0 0 114px;
+  gap: clamp(3px, 0.8vh, 5px);
+  width: clamp(74px, calc(102px * var(--controlScale)), 110px);
+  min-width: 68px;
+  max-width: 110px;
+  flex: 0 0 auto;
   padding: 0;
   margin: 0;
 }
 
 .train-dashboard__switchbank--left {
   align-items: stretch;
-  gap: 7px;
-  margin-right: clamp(10px, 1.5vw, 20px);
 }
 
 .train-dashboard__switchbank--right {
   align-items: stretch;
-  gap: 5px;
-  margin-left: clamp(10px, 1.5vw, 20px);
 }
 
 /* Horizontal Pill Switch Buttons inside Switchbanks */
@@ -311,42 +355,43 @@
   flex-direction: row !important;
   align-items: center !important;
   justify-content: flex-start !important;
-  gap: 8px !important;
+  gap: clamp(4px, 0.6vw, 8px) !important;
   width: 100% !important;
   min-width: 0 !important;
-  max-width: 114px !important;
-  height: 29px !important;
-  min-height: 29px !important;
-  max-height: 29px !important;
-  padding: 0 10px !important;
+  height: clamp(23px, calc(28px * var(--controlScale)), 32px) !important;
+  min-height: 23px !important;
+  max-height: 32px !important;
+  padding: 0 clamp(5px, 0.8vw, 8px) !important;
   margin: 0 !important;
   border-radius: 5px !important;
-  font-size: 0.62rem !important;
+  font-size: clamp(0.50rem, calc(0.58rem * var(--controlScale)), 0.63rem) !important;
   font-weight: 800 !important;
-  letter-spacing: 0.05em !important;
+  letter-spacing: 0.04em !important;
   box-sizing: border-box !important;
-  flex: 0 0 29px !important;
+  flex: 0 0 auto !important;
+  touch-action: manipulation;
 }
 
 .train-dashboard__switchbank--left .dashboard-action-btn {
-  height: 31px !important;
-  min-height: 31px !important;
-  max-height: 31px !important;
-  flex: 0 0 31px !important;
+  height: clamp(24px, calc(29px * var(--controlScale)), 33px) !important;
+  min-height: 24px !important;
+  max-height: 33px !important;
 }
 
 .train-dashboard__switchbank .dashboard-action-btn__svg {
-  width: 18px !important;
-  height: 15px !important;
+  width: clamp(13px, 1.8vw, 17px) !important;
+  height: clamp(11px, 1.5vw, 14px) !important;
   flex-shrink: 0 !important;
 }
 
 .train-dashboard__switchbank .dashboard-action-btn__label {
-  font-size: 0.63rem !important;
-  letter-spacing: 0.06em !important;
+  font-size: clamp(0.50rem, calc(0.58rem * var(--controlScale)), 0.63rem) !important;
+  letter-spacing: 0.04em !important;
   text-align: left !important;
   line-height: 1 !important;
   white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 /* Gauges Row */
@@ -354,7 +399,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: clamp(6px, calc(12px * var(--gaugeScale)), 18px);
+  gap: clamp(4px, calc(10px * var(--gaugeScale)), 16px);
   flex: 1;
   max-width: 100%;
   min-width: 0;
@@ -366,8 +411,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  gap: 4px;
+  gap: 3px;
   flex-shrink: 0;
+}
+
+/* Secondary gauges (Main Res & Coolant Temp) hidden on compact/mobile screens to prevent crowding */
+@media (max-width: 1050px), (max-height: 520px) and (orientation: landscape) {
+  .train-dashboard__gauge-pod--secondary {
+    display: none !important;
+  }
 }
 
 /* Gauge Header Title Badge Displayed Directly Above Each Meter */
@@ -2528,7 +2580,7 @@
   position: relative;
   width: 100%;
   height: 18px;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .top-hud__station-label {
@@ -2542,6 +2594,7 @@
   letter-spacing: 0.01em;
   transition: color 0.2s ease, font-size 0.2s ease;
   user-select: none;
+  pointer-events: none;
 }
 
 .top-hud__station-label--left {
@@ -2556,7 +2609,7 @@
   transform: translateX(-100%);
 }
 
-/* Active Station: Bold, Larger, Pure White with Soft Cyan Glow (Exact Reference Match) */
+/* Active Station: Bold, Larger, Pure White with Soft Cyan Glow */
 .top-hud__station-label--active {
   font-size: 0.84rem;
   font-weight: 800;
@@ -2565,6 +2618,15 @@
   text-shadow: 
     0 0 12px rgba(0, 210, 255, 0.85),
     0 2px 5px rgba(0, 0, 0, 0.9);
+  z-index: 5;
+}
+
+.top-hud__station-name-desktop {
+  display: inline;
+}
+
+.top-hud__station-name-mobile {
+  display: none;
 }
 
 
@@ -2756,35 +2818,121 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 860px) {
   .top-hud {
-    height: calc(clamp(52px, 7vh, 60px) + var(--sat));
-    padding: 4px var(--hudPadding);
+    min-height: calc(48px + var(--sat));
+    padding: calc(6px + var(--sat)) calc(var(--hudPadding) + var(--sar)) 4px calc(var(--hudPadding) + var(--sal));
+  }
+  .top-hud__left {
+    display: none !important;
+  }
+  .top-hud__right {
+    gap: 6px;
+    margin-top: 0;
   }
   .top-hud__center {
-    margin: 0 4px;
-    min-width: 40px;
+    margin: 0 8px;
   }
-  .top-hud__pause-btn {
-    min-width: 44px;
-    min-height: 44px;
-    width: 44px;
-    height: 44px;
+  .top-hud__route-track {
+    padding: 16px 8px 2px;
+  }
+  .top-hud__station-name-desktop {
+    display: none !important;
+  }
+  .top-hud__station-name-mobile {
+    display: inline-block !important;
+  }
+  .top-hud__station-label {
+    font-size: 0.60rem;
+  }
+  .top-hud__station-label--active {
+    font-size: 0.74rem;
+    color: #ffffff;
+    background: rgba(6, 18, 38, 0.92);
+    border: 1px solid rgba(0, 210, 255, 0.6);
+    border-radius: 4px;
+    padding: 1px 5px;
+    box-shadow: 0 0 8px rgba(0, 210, 255, 0.45);
+    transform: translate(-50%, -2px);
+  }
+  .top-hud__station-label--left.top-hud__station-label--active {
+    transform: translate(0, -2px);
+  }
+  .top-hud__station-label--right.top-hud__station-label--active {
+    transform: translate(-100%, -2px);
+  }
+  .top-hud__station-label--inactive {
+    color: #64748b;
+    font-weight: 700;
+  }
+  .signal-indicator {
+    height: 32px;
+    padding: 0 8px 0 5px;
+    gap: 5px;
+  }
+  .signal-indicator__beacon {
+    width: 20px;
+    height: 20px;
+  }
+  .signal-indicator__lens {
+    width: 14px;
+    height: 14px;
+  }
+  .signal-indicator__plate--four-aspect {
+    display: none !important;
+  }
+  .signal-indicator__sep {
+    display: none !important;
+  }
+  .signal-indicator__text {
+    font-size: 0.65rem;
+  }
+  .signal-indicator__advisory {
+    display: none !important;
   }
   .top-hud__speed-sign {
-    width: clamp(34px, 8vw, 38px);
-    height: clamp(34px, 8vw, 38px);
+    width: 32px;
+    height: 32px;
+    border-width: 2.5px;
   }
   .top-hud__speed-sign-val {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
   }
-  .top-hud__action-label {
-    display: none;
+  .top-hud__speed-sign-unit {
+    font-size: 0.38rem;
   }
-  .top-hud__action-pill {
-    padding: 0 8px;
-    min-width: 44px;
-    min-height: 44px;
+  .top-hud__speed-box {
+    padding: 2px 6px;
+    min-width: 42px;
+  }
+  .top-hud__speed-box-val {
+    font-size: 0.95rem;
+  }
+  .top-hud__speed-box-unit {
+    font-size: 0.50rem;
+  }
+  .tactile-fullscreen-btn__casing,
+  .top-hud__pause-btn {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+  }
+  .top-hud__pause-icon {
+    font-size: 0.80rem;
+  }
+  .tactile-fullscreen-btn__svg {
+    width: 15px;
+    height: 15px;
+  }
+  .tactile-fullscreen-btn__tag {
+    display: none !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .top-hud__station-label--inactive {
+    display: none !important;
   }
 }
 
@@ -3103,20 +3251,61 @@
   }
 }
 
-/* Ultra-compact portrait: prioritize the 3 primary driving gauges (Speed, RPM, Brake) */
-@media (orientation: portrait) and (max-width: 640px) {
-  .train-dashboard__gauges-row .analog-gauge:nth-child(4),
-  .train-dashboard__gauges-row .analog-gauge:nth-child(5) {
-    display: none;
+/* Mobile Landscape Optimization */
+@media (orientation: landscape) and (max-height: 520px) {
+  .train-dashboard__header {
+    padding: 2px 8px;
+  }
+  .train-dashboard__model-tag {
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+  }
+  .train-dashboard__body {
+    padding: 2px 6px 4px;
+    gap: clamp(4px, 1.0vw, 10px);
+  }
+  .train-dashboard__wing-left,
+  .train-dashboard__wing-right {
+    padding: 3px 6px;
+    border-radius: 8px;
+  }
+  .train-dashboard__wing-levers {
+    gap: clamp(4px, 0.8vw, 10px);
+  }
+  .train-dashboard__center-cluster {
+    padding: 2px 6px 4px;
+    border-radius: 10px 10px 4px 4px;
+    gap: 2px;
+  }
+  .train-dashboard__telemetry-bar {
+    padding: 0 4px 1px;
+    gap: 8px;
+  }
+  .train-dashboard__telemetry-chip {
+    padding: 1px 4px;
+    font-size: 0.52rem;
+  }
+  .train-dashboard__gauges-row {
+    gap: clamp(4px, 1.2vw, 10px);
+  }
+  .tactile-lever {
+    width: clamp(46px, calc(56px * var(--controlScale)), 66px);
   }
 }
 
-/* Ultra-compact landscape: prioritize 3 primary driving gauges */
-@media (orientation: landscape) and (max-width: 680px) {
-  .train-dashboard__gauges-row .analog-gauge:nth-child(4),
-  .train-dashboard__gauges-row .analog-gauge:nth-child(5) {
+/* Small mobile landscape (e.g. iPhone SE / < 720px width) */
+@media (orientation: landscape) and (max-width: 720px) {
+  .train-dashboard__model-tag {
     display: none;
   }
+  .train-dashboard__switchbank {
+    width: clamp(66px, 9vw, 84px);
+    min-width: 64px;
+  }
+  .train-dashboard__switchbank .dashboard-action-btn__label {
+    font-size: 0.50rem !important;
+  }
 }
+
 
 

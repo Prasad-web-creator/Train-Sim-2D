@@ -239,6 +239,22 @@ export function TrainDashboard() {
 
         {/* Center Cluster: Warning Annunciator Strip, Gauges, Controls Bar */}
         <div className="train-dashboard__center-cluster">
+          {/* Micro Telemetry Bar Above Gauges (Guarantees Live Main Res, Temp, and Fuel Readouts On All Screens) */}
+          <div className="train-dashboard__telemetry-bar">
+            <div className="train-dashboard__telemetry-chip" title="Main Air Reservoir Pressure">
+              <span className="train-dashboard__telemetry-chip-lbl">MAIN RES</span>
+              <span className="train-dashboard__telemetry-chip-val">{tmp_mainResPsi} PSI</span>
+            </div>
+            <div className="train-dashboard__telemetry-chip" title="Engine Coolant Temperature">
+              <span className="train-dashboard__telemetry-chip-lbl">COOLANT</span>
+              <span className="train-dashboard__telemetry-chip-val">{tmp_engineTempC}°C</span>
+            </div>
+            <div className="train-dashboard__telemetry-chip" title="Locomotive Diesel Fuel Level">
+              <span className="train-dashboard__telemetry-chip-lbl">FUEL</span>
+              <span className="train-dashboard__telemetry-chip-val">{Math.round(tmp_fuelPercent)}%</span>
+            </div>
+          </div>
+
           {/* Center Cluster Main Content: Left Brake Switchbank + Center Gauges Row + Right Aux Switchbank */}
           <div className="train-dashboard__cluster-content">
             {/* Left Driving & Brake Switch Bank (RELEASE, BRAKE, EMERGENCY) */}
@@ -280,7 +296,7 @@ export function TrainDashboard() {
               </button>
             </div>
 
-            {/* Center Instruments Row: 5 Circular Canvas Analog Gauges with Header Titles Above */}
+            {/* Center Instruments Row: 3 Core Gauges on Mobile, 5 on Desktop */}
             <div className="train-dashboard__gauges-row">
               {/* Gauge 1: Brake Pipe PSI (0-150, 98 PSI) */}
               <div className="train-dashboard__gauge-pod">
@@ -293,8 +309,8 @@ export function TrainDashboard() {
                 />
               </div>
 
-              {/* Gauge 2: Main Reservoir PSI (0-150, 108 PSI) */}
-              <div className="train-dashboard__gauge-pod">
+              {/* Gauge 2: Main Reservoir PSI (0-150, 108 PSI) - Secondary dial, hidden on mobile */}
+              <div className="train-dashboard__gauge-pod train-dashboard__gauge-pod--secondary">
                 <span className="train-dashboard__gauge-title">MAIN RES</span>
                 <PressureGauge
                   psi={tmp_mainResPsi}
@@ -327,8 +343,8 @@ export function TrainDashboard() {
                 />
               </div>
 
-              {/* Gauge 5: Engine Coolant Temperature 0-150 °C with Lime Green Needle */}
-              <div className="train-dashboard__gauge-pod">
+              {/* Gauge 5: Engine Coolant Temperature 0-150 °C - Secondary dial, hidden on mobile */}
+              <div className="train-dashboard__gauge-pod train-dashboard__gauge-pod--secondary">
                 <span className="train-dashboard__gauge-title">COOLANT TEMP</span>
                 <TemperatureGauge
                   temperatureC={tmp_engineTempC}

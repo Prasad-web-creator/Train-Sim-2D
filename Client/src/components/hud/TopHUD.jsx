@@ -69,11 +69,31 @@ export function TopHUD({ onOpenPause }) {
     ? `${(tmp_distRem / 1000).toFixed(1)} km`
     : `${Math.round(tmp_distRem)} m`;
 
+  function fn_getShortName(fullName, fallback) {
+    if (!fullName) return fallback;
+    const cleaned = fullName.replace(/\b(Junction|Jn|Halt|Station|Terminus|Central)\b/gi, '').trim();
+    return cleaned || fullName;
+  }
+
+  function fn_getCode(fullName, fallback) {
+    if (!fullName) return fallback;
+    const words = fullName.replace(/\b(Junction|Jn|Halt|Station|Terminus|Central)\b/gi, '').trim().split(/\s+/);
+    if (words.length >= 2) {
+      return (words[0][0] + words[1].slice(0, 2)).toUpperCase();
+    }
+    return fullName.slice(0, 3).toUpperCase();
+  }
+
+  const tmp_stn0 = obj_currentMissionData.startStation || 'Tirunelveli Junction';
+  const tmp_stn1 = obj_currentMissionData.intermediateStations?.[0] || 'Palayamkottai Halt';
+  const tmp_stn2 = obj_currentMissionData.intermediateStations?.[1] || 'Vanchi Maniyachchi';
+  const tmp_stn3 = obj_currentMissionData.endStation || 'Thoothukudi Station';
+
   const arr_stations = [
-    { name: obj_currentMissionData.startStation || 'Tirunelveli Junction', pct: 0 },
-    { name: obj_currentMissionData.intermediateStations?.[0] || 'Palayamkottai Halt', pct: 33.33 },
-    { name: obj_currentMissionData.intermediateStations?.[1] || 'Vanchi Maniyachchi', pct: 66.67 },
-    { name: obj_currentMissionData.endStation || 'Thoothukudi Station', pct: 100 },
+    { name: tmp_stn0, shortName: fn_getShortName(tmp_stn0, 'Tirunelveli'), code: fn_getCode(tmp_stn0, 'TEN'), pct: 0 },
+    { name: tmp_stn1, shortName: fn_getShortName(tmp_stn1, 'Palayamkottai'), code: fn_getCode(tmp_stn1, 'PLM'), pct: 33.33 },
+    { name: tmp_stn2, shortName: fn_getShortName(tmp_stn2, 'Vanchi'), code: fn_getCode(tmp_stn2, 'MEJ'), pct: 66.67 },
+    { name: tmp_stn3, shortName: fn_getShortName(tmp_stn3, 'Thoothukudi'), code: fn_getCode(tmp_stn3, 'TN'), pct: 100 },
   ];
 
   // Determine active/approaching station index
@@ -209,10 +229,14 @@ export function TopHUD({ onOpenPause }) {
                 return (
                   <span
                     key={stn.name + idx}
-                    className={`top-hud__station-label ${alignClass} ${isActive ? 'top-hud__station-label--active' : ''}`}
+                    className={`top-hud__station-label ${alignClass} ${isActive ? 'top-hud__station-label--active' : 'top-hud__station-label--inactive'}`}
                     style={{ left: `${stn.pct}%` }}
+                    title={stn.name}
                   >
-                    {stn.name}
+                    <span className="top-hud__station-name-desktop">{stn.name}</span>
+                    <span className="top-hud__station-name-mobile">
+                      {isActive ? (stn.shortName || stn.name) : stn.code}
+                    </span>
                   </span>
                 );
               })}
